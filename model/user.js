@@ -10,7 +10,7 @@ const userSchema=new mongoose.Schema({
     balance:{type:Number, required:true},
     name:{type:String, required:true},
     transactionId:{type:Number, required:true},
-    date:{type:Date, default:(Date())}
+    date:{type:Date, default:(new Date())}
 });
 
 module.exports=mongoose.model('users',userSchema);

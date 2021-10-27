@@ -15,7 +15,7 @@ const walletDb=require('../Dao/dbdao');
         const transactId=Date.now();
         
         const userid=String(currentDate.getFullYear())+String(currentDate.getMonth()+1)+String(currentDate.getDate())+String(currentDate.getHours())+String(currentDate.getMinutes())+String(currentDate.getSeconds())
-        const createddate=currentDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+        //const createddate=currentDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
         
             const cust=await walletDb.createUser(userid,Number(balance),name,transactId);
             console.log(cust)
@@ -35,12 +35,12 @@ const walletDb=require('../Dao/dbdao');
         const {amount, description}=req.body;
         const transactId=Date.now();
         const currentDate=new Date();
-        //const userid=String(currentDate.getFullYear())+String(currentDate.getMonth()+1)+String(currentDate.getDate())+String(currentDate.getHours())+String(currentDate.getMinutes())+String(currentDate.getSeconds())
+        const userid=String(currentDate.getFullYear())+String(currentDate.getMonth()+1)+String(currentDate.getDate())+String(currentDate.getHours())+String(currentDate.getMinutes())+String(currentDate.getSeconds())
         const createddate=currentDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
         const amt=Number(amount).toFixed(4)
        // console.log(amt);
         try{
-            const transacting=await walletDb.transactionLog(walletid,amt,description,transactId,createddate);
+            const transacting=await walletDb.transactionLog(walletid,amt,description,transactId);
             const{transact,updatedUser}=transacting;
             res.status(200).send({Balance:updatedUser.balance,Transaction_Id:transact.transactionId});
         }

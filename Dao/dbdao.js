@@ -29,19 +29,19 @@ const transactions=require('../model/transactions')
 
 // Transactions storing
 
-    const transactionLog= async (userid,amount,description,transactionId,date)=>{
+    const transactionLog= async (userid,amount,description,transactionId)=>{
         let res;
         const Uid=Number(userid);
 
         try{
-        const transaction=new transactions({Uid,amount,description,transactionId,date});
+        const transaction=new transactions({Uid,amount,description,transactionId});
         const transact=await transaction.save()
         let updateUser=await users.findOne({"Uid":Uid})
         //console.log(updateUser)
         updateUser.balance = updateUser.balance + Number(amount);
         updateUser.balance = (updateUser.balance).toFixed(4);
-        //console.log(amount,updateUser.balance);
-        updateUser.date = date;
+        console.log(transact.date);
+        updateUser.date = transact.date;
         const updatedUser=await updateUser.save()
         console.log("transaction stored");
         res= {transact,updatedUser}
