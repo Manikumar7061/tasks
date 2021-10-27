@@ -19,7 +19,6 @@ const walletDb=require('../Dao/dbdao');
         
             const cust=await walletDb.createUser(userid,Number(balance),name,transactId);
             console.log(cust)
-            //const{Uid,transactionId,date}=cust;
             res.status(200).send({ID:cust.Uid,Balance:cust.balance,Transaction_Id:cust.transactionId,Name:cust.name,Date:cust.date});
         }
         catch(err){
