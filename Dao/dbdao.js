@@ -1,7 +1,7 @@
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 
-const users=require('../model/user')
-const transactions=require('../model/transactions')
+const users = require('../model/user')
+const transactions = require('../model/transactions')
 
 
 /**
@@ -13,70 +13,70 @@ const transactions=require('../model/transactions')
 
 //Adding wallet user
 
-    const createUser= async (Uid,balance,name,transactionId)=>{
-        balance=balance.toFixed(4);
-        try{
-        const user=new users({Uid,balance,name,transactionId});
-        let res=await user.save()       
+const createUser = async (Uid, balance, name, transactionId) => {
+    balance = balance.toFixed(4);
+    try {
+        const user = new users({ Uid, balance, name, transactionId });
+        let res = await user.save()
         console.log("user created");
         return res;
 
-        }catch(err){
-            throw new Error(err);
-        }
-        
+    } catch (err) {
+        throw new Error(err);
     }
+
+}
 
 // Transactions storing
 
-    const transactionLog= async (userid,amount,description,transactionId)=>{
-        let res;
-        const Uid=Number(userid);
+const transactionLog = async (userid, amount, description, transactionId) => {
+    let res;
+    const Uid = Number(userid);
 
-        try{
-        const transaction=new transactions({Uid,amount,description,transactionId});
-        const transact=await transaction.save()
-        let updateUser=await users.findOne({"Uid":Uid})
+    try {
+        const transaction = new transactions({ Uid, amount, description, transactionId });
+        const transact = await transaction.save()
+        let updateUser = await users.findOne({ "Uid": Uid })
         //console.log(updateUser)
         updateUser.balance = updateUser.balance + Number(amount);
         updateUser.balance = (updateUser.balance).toFixed(4);
         console.log(transact.date);
         updateUser.date = transact.date;
-        const updatedUser=await updateUser.save()
+        const updatedUser = await updateUser.save()
         console.log("transaction stored");
-        res= {transact,updatedUser}
-        
-        }catch(err){
-            res=err;
-            console.log(err);
-        }
-        return res;
+        res = { transact, updatedUser }
+
+    } catch (err) {
+        res = err;
+        console.log(err);
     }
-    
+    return res;
+}
+
 //3. Transactions fetching
 
-    const usertransactions= async (Uid,skipped,limited)=>{
-        const allTrans=await transactions.find({"Uid":Uid}).limit(limited).skip(skipped)
-        //console.log(allTrans);
-        if(allTrans==null){
-            return ("err");
-        }
-        return allTrans;
+const usertransactions = async (Uid, skipped, limited) => {
+    const allTrans = await transactions.find({ "Uid": Uid }).limit(limited).skip(skipped)
+    //console.log(allTrans);
+    if (allTrans == null) {
+        return ("err");
     }
+    return allTrans;
+}
 
 
 //4. Wallet info
 
-    const getWallet= async (userid)=>{
-        let res;
-        const Uid=Number(userid)
-        const user=await users.findOne({"Uid":Uid})
-        if(user==null){
-            return ("err");
-        }
-        return user;
+const getWallet = async (userid) => {
+    let res;
+    const Uid = Number(userid)
+    const user = await users.findOne({ "Uid": Uid })
+    if (user == null) {
+        return ("err");
     }
+    return user;
+}
 
 
 
-module.exports={createUser, transactionLog, usertransactions, getWallet}
+module.exports = { createUser, transactionLog, usertransactions, getWallet }

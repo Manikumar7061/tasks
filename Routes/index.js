@@ -1,5 +1,5 @@
 const express = require('express');
-const processor= require('../Processors/index');
+const processor = require('../Processors/index');
 
 const router = express.Router();
 
@@ -8,9 +8,9 @@ const router = express.Router();
  * @param {object} req
  */
 
-router.post('/setup',processor.setup)
-router.post('/transact/:id',processor.transaction)
-router.get('/transactions',processor.allTransactions)
-router.get('/:id',processor.getWallet)
+router.post('/setup', processor.setup)
+router.post('/transact/:id', processor.transaction)
+router.get('/transactions', processor.allTransactions)
+router.get('/:id', processor.getWallet)
 
-module.exports=router;
+module.exports = router;
